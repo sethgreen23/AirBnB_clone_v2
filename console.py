@@ -261,14 +261,18 @@ class HBNBCommand(cmd.Cmd):
                 return
             if os.getenv('HBNB_TYPE_STORAGE') == 'db':
                 _cls = HBNBCommand.classes[args]
-                print_list.append(storage.all(_cls))
+                obj_dict = storage.all(_cls)
+                for k, v in obj_dict.items():
+                    print_list.append(str(v))
             else:
                 for k, v in engine.items():
                     if k.split('.')[0] == args:
                         print_list.append(str(v))
         else:
             if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-                print_list.append(storage.all())
+                obj_dict = storage.all()
+                for k, v in obj_dict.items():
+                    print_list.append(str(v))
             else:
                 for k, v in engine.items():
                     print_list.append(str(v))

@@ -6,9 +6,9 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 # from models import storage
-
-
 Base = declarative_base()
+
+
 class BaseModel:
     """A base class for all hbnb models"""
 
@@ -26,14 +26,14 @@ class BaseModel:
 
         else:
             try:
-                kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
+                kwargs['updated_at'] = datetime.strptime(
+                    kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
             except KeyError:
                 # kwargs['updated_at'] = datetime.now()
                 setattr(self, 'updated_at', datetime.utcnow())
             try:
-                kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
+                kwargs['created_at'] = datetime.strptime(
+                    kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
             except KeyError:
                 setattr(self, 'created_at', datetime.utcnow())
             try:
@@ -45,11 +45,15 @@ class BaseModel:
             # Should be tested
             for key, value in kwargs.items():
                 setattr(self, key, value)
-            #self.__dict__.update(kwargs)
-            
+            # self.__dict__.update(kwargs)
+
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
+        try:
+            del self.__dict__['_sa_instance_state']
+        except AttributeError:
+            pass
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
     def save(self):
@@ -58,7 +62,6 @@ class BaseModel:
         self.updated_at = datetime.now()
         storage.new(self)  # moved from def __init__
         storage.save()
-
 
     def to_dict(self):
         """Convert instance into dict format"""
@@ -69,8 +72,10 @@ class BaseModel:
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         key_to_remove = '_sa_instance_state'
+        # print("Dictionary before deletion", dictionary)
         if key_to_remove in dictionary:
             del dictionary[key_to_remove]
+            # print("Dictionary after deletion", dictionary)
         return dictionary
 
     def delete(self):
