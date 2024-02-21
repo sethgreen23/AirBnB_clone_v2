@@ -274,7 +274,7 @@ class HBNBCommand(cmd.Cmd):
             else:  # handles FileStorage with
                 for k, v in engine.items():
                     if k.split('.')[0] == args:
-                        print_list.append(str(v))
+                        print_list.append(v)  # uses __repr__
         else:  # handles all command with no instance
             if os.getenv('HBNB_TYPE_STORAGE') == 'db':
                 obj_dict = storage.all()
@@ -282,7 +282,7 @@ class HBNBCommand(cmd.Cmd):
                     print_list.append(str(v))
             else:
                 for k, v in engine.items():
-                    print_list.append(str(v))
+                    print_list.append(v)  # uses __repr__
         if len(print_list) == 1 and print_list[0] == {}:
             print([])
         else:

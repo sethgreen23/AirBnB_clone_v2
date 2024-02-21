@@ -56,6 +56,15 @@ class BaseModel:
             pass
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
+    def __repr__(self):
+        """Returns string representation when str() is used"""
+        cls = (str(type(self)).split('.')[-1]).split('\'')[0]
+        try:
+            del self.__dict__['_sa_instance_state']
+        except Exception:
+            pass
+        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
