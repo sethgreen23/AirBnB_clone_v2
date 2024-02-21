@@ -6,11 +6,13 @@ from sqlalchemy.exc import ArgumentError
 from models.base_model import Base, BaseModel
 import os
 
+
 class DBStorage:
     """DBStorage class"""
     __engine = None
     __session = None
     metadata = MetaData()
+
     def __init__(self):
         """Initilazier Method"""
         # environment variables:
@@ -22,12 +24,12 @@ class DBStorage:
         # hbnb_type_storage = os.getenv('HBNB_TYPE_STORAGE')
 
         if not self.__engine:
-            self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                        .format(hbnb_dev, hbnb_dev_pwd,
-                                                hbnb_mysql_host, hbnb_dev_db
-                                                ), pool_pre_ping=True)
-        
-        
+            self.__engine = create_engine(
+                'mysql+mysqldb://{}:{}@{}/{}'
+                .format(hbnb_dev, hbnb_dev_pwd,
+                        hbnb_mysql_host, hbnb_dev_db),
+                pool_pre_ping=True)
+
         if hbnb_env == 'test':
             DBStorage.metadata.reflect(bind=self.__engine)
             DBStorage.metadata.drop_all(bind=self.__engine)
@@ -72,14 +74,14 @@ class DBStorage:
         self.__session.add(obj)
 
     def save(self):
-        """commit all changes of the current database session (self.__session)"""
+        """commit all changes of the current database session
+        (self.__session)"""
         self.__session.commit()
 
     def delete(self, obj):
         """delete from the current database session obj if not None"""
         if obj is not None:
             self.__session.delete(obj)
-            
 
     def reload(self):
         """create all tables in the database """

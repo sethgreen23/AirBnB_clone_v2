@@ -52,7 +52,7 @@ class BaseModel:
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         try:
             del self.__dict__['_sa_instance_state']
-        except AttributeError:
+        except Exception:
             pass
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 

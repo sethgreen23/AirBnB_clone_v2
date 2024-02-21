@@ -142,9 +142,16 @@ class HBNBCommand(cmd.Cmd):
                     key = line[0]
                     if line[2]:
                         value = line[2]
+                        # used eval() to check if its a valid input
+                        # all \" with "
+                        try:
+                            eval(value)
+                        except Exception:
+                            continue
                         if value[0] == '"' and value[-1] == '"':
                             value = value.replace('_', ' ')
                             value = value[1:-1]
+                            value = value.replace('\\"', '\"')
                             value = str(value)
                         elif value.find('.') >= 0 and (
                                 HBNBCommand.is_float(value)):
@@ -254,7 +261,7 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
         engine = storage.all()
-        if args:
+        if args:  # handles if class name is provided with all
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
@@ -264,11 +271,11 @@ class HBNBCommand(cmd.Cmd):
                 obj_dict = storage.all(_cls)
                 for k, v in obj_dict.items():
                     print_list.append(str(v))
-            else:
+            else:  # handles FileStorage with
                 for k, v in engine.items():
                     if k.split('.')[0] == args:
                         print_list.append(str(v))
-        else:
+        else:  # handles all command with no instance
             if os.getenv('HBNB_TYPE_STORAGE') == 'db':
                 obj_dict = storage.all()
                 for k, v in obj_dict.items():
