@@ -30,7 +30,7 @@ class Place(BaseModel, Base):
         'place_amenity', Base.metadata,
         Column('place_id', ForeignKey('places.id')),
         Column('amenity_id', ForeignKey('amenities.id'))
-    )   
+    )
 
     @property
     def reviews(self, place_id):
@@ -45,14 +45,22 @@ class Place(BaseModel, Base):
         return reviews_list
 
     @property
-    def amenities (self, amenity_ids):
+    def amenities(self):
         """Getter attribute amenities that returns the list of Amenity
         instances based on the attribute amenity_ids that contains all
         Amenity.id linked to the Place"""
-        
-        return self.amenity_ids
+        from models.amenity import Amenity
+        from models import storage
+        amenity_list = []
+        amenity_storage = storage.all(Amenity)
+        for amenity_id in self.amenity_ids:
+            for a_storage in amenity_storage.values():
+                if amenity_id == a_storage.id:
+                    amenity_list.append(a_storage)
+                continue
+        return amenity_list
 
-    @setattr
+    @amenities.setter
     def amenities(self, amenity_obj):
         """Setter attribute"""
         from models.amenity import Amenity
