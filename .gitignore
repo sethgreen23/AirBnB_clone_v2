@@ -7,3 +7,4 @@ file
 *.txt
 *.sh
 main_place_amenities.py
+main_delete.py
