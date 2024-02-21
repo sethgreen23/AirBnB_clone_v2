@@ -5,3 +5,4 @@ test_params_create
 file
 *.pyc
 *.txt
+*.sh
