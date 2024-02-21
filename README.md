@@ -146,3 +146,4 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 
 ## Contributing
 
+Pull requests are welcome any time. For major changes, please open an issue first
