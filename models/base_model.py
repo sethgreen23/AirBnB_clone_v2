@@ -51,7 +51,8 @@ class BaseModel:
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         try:
-            del self.__dict__['_sa_instance_state']
+            if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+                del self.__dict__['_sa_instance_state']
         except Exception:
             pass
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
@@ -60,7 +61,8 @@ class BaseModel:
         """Returns string representation when str() is used"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         try:
-            del self.__dict__['_sa_instance_state']
+            if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+                del self.__dict__['_sa_instance_state']
         except Exception:
             pass
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
@@ -83,7 +85,8 @@ class BaseModel:
         key_to_remove = '_sa_instance_state'
         # print("Dictionary before deletion", dictionary)
         if key_to_remove in dictionary:
-            del dictionary[key_to_remove]
+            if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+                del dictionary[key_to_remove]
             # print("Dictionary after deletion", dictionary)
         return dictionary
 
