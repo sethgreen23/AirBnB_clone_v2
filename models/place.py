@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 from models.city import City
 from models.user import User
-from sqlalchemy import Column, String, ForeignKey, Integer, Float
+from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 
 
@@ -24,6 +24,14 @@ class Place(BaseModel, Base):
     amenity_ids = []
     reviews = relationship('Review', cascade='all, delete-orphan',
                            backref='place')
+    amenities = relationship('Amenity', secondary='place_amenity',
+                             viewonly=False)
+    place_amenity = Table(
+        'place_amenity', Base.metadata,
+        Column('place_id', ForeignKey('places.id')),
+        Column('amenity_id', ForeignKey('amenities.id'))
+    )   
+
     @property
     def reviews(self, place_id):
         """getter attribute reviews that returns the list of Review
@@ -35,3 +43,19 @@ class Place(BaseModel, Base):
             if place_instance.place_id == self.id:
                 reviews_list.append(place_instance)
         return reviews_list
+
+    @property
+    def amenities (self, amenity_ids):
+        """Getter attribute amenities that returns the list of Amenity
+        instances based on the attribute amenity_ids that contains all
+        Amenity.id linked to the Place"""
+        
+        return self.amenity_ids
+
+    @setattr
+    def amenities(self, amenity_obj):
+        """Setter attribute"""
+        from models.amenity import Amenity
+
+        if isinstance(amenity_obj, Amenity):
+            self.amenity_ids.append(amenity_obj.id)
