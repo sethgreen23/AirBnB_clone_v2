@@ -149,4 +149,4 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 Pull requests are welcome any time. For major changes, please open an issue first
 to discuss what you would like to change.
 
-Please make sure
+Please make sure to update tests
