@@ -8,11 +8,12 @@ from fabric.api import local
 
 def do_pack():
     """generates a .tgz archive from the contents of the web_static folder"""
-    os.makedirs("versions", exist_ok=True)
+    if os.path.isdir("versions") is False:
+        local("mkdir -p versions")
     source_dir = "./web_static"
     current_time = datetime.datetime.now()
     timestamp = current_time.strftime("%Y%m%d%H%M%S")
-    output_file = f"web_static_{timestamp}.tgz"
+    output_file = f"versions/web_static_{timestamp}.tgz"
     if local(f"tar czf {output_file} {source_dir}").failed is True:
         return None
     if os.path.exists(output_file):
