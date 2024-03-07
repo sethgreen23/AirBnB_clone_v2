@@ -27,7 +27,9 @@ def do_pack():
 def do_deploy(archive_path):
     """Fabric script that distributes an archive to your web servers, using the
 function do_deploy"""
-    if archive_path is None or not os.path.exists(archive_path):
+    if not os.path.exists(archive_path):
+        return False
+    if not os.path.isfile(archive_path):
         return False
     # Upload the archive_path to /tmp/ on the remote server
     put(archive_path, "/tmp/")
@@ -50,7 +52,7 @@ function do_deploy"""
 
         run("mkdir /data/web_static/current/")
 
-        run(f"ln -sf {release_dir}{archive}/* /data/web_static/current")
+        run(f"ln -s {release_dir}{archive}/* /data/web_static/current")
 
         print("New version deployed!")
         return True
