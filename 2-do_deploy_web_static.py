@@ -27,34 +27,20 @@ def do_pack():
 def do_deploy(archive_path):
     """Fabric script that distributes an archive to your web servers, using the
 function do_deploy"""
-    if not os.path.exists(archive_path):
+    if os.path.exists(archive_path) is False:
         return False
-    if not os.path.isfile(archive_path):
-        return False
-    # Upload the archive_path to /tmp/ on the remote server
-    put(archive_path, "/tmp/")
-    # prepare the name of the archive on the server
-    archive = archive_path[archive_path.find("/") + 1: -4]
     try:
-        release_dir = "/data/web_static/releases/"
-        # Prepare the archive folder inside /data/web_static/releases
-        run(f"mkdir -p {release_dir}{archive}")
-        # Unpack the tgz file to the releases
-        run(f"tar -xzf /tmp/{archive}.tgz -C {release_dir}{archive}/")
-        # Delete archive from /tmp
-        run(f"rm /tmp/{archive}.tgz")
-        #
-        run(f"mv {release_dir}{archive}/web_static/* {release_dir}{archive}/")
-
-        run(f"rm -rf {release_dir}{archive}/web_static")
-
-        run("rm -rf /data/web_static/current")
-
-        run("mkdir /data/web_static/current/")
-
-        run(f"ln -s {release_dir}{archive}/* /data/web_static/current")
-
-        print("New version deployed!")
+        file_n = archive_path.split("/")[-1]
+        no_ext = file_n.split(".")[0]
+        path = "/data/web_static/releases/"
+        put(archive_path, '/tmp/')
+        run('mkdir -p {}{}/'.format(path, no_ext))
+        run('tar -xzf /tmp/{} -C {}{}/'.format(file_n, path, no_ext))
+        run('rm /tmp/{}'.format(file_n))
+        run('mv {0}{1}/web_static/* {0}{1}/'.format(path, no_ext))
+        run('rm -rf {}{}/web_static'.format(path, no_ext))
+        run('rm -rf /data/web_static/current')
+        run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
         return True
     except Exception as ex:
         return False
