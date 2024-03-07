@@ -56,5 +56,5 @@ function do_deploy"""
 
         print("New version deployed!")
         return True
-    except Exception:
+    except Exception as ex:
         return False
