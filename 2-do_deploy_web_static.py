@@ -36,21 +36,21 @@ function do_deploy"""
     try:
         release_dir = "/data/web_static/releases/"
         # Prepare the archive folder inside /data/web_static/releases
-        run(f"sudo mkdir -p {release_dir}{archive}")
+        run(f"mkdir -p {release_dir}{archive}")
         # Unpack the tgz file to the releases
-        run(f"sudo tar -xzf /tmp/{archive}.tgz -C {release_dir}{archive}/")
+        run(f"tar -xzf /tmp/{archive}.tgz -C {release_dir}{archive}/")
         # Delete archive from /tmp
-        run(f"sudo rm /tmp/{archive}.tgz")
+        run(f"rm /tmp/{archive}.tgz")
         #
-        run(f"sudo mv {release_dir}{archive}/web_static/* {release_dir}{archive}/")
+        run(f"mv {release_dir}{archive}/web_static/* {release_dir}{archive}/")
 
-        run(f"sudo rm -rf {release_dir}{archive}/web_static")
+        run(f"rm -rf {release_dir}{archive}/web_static")
 
-        run("sudo rm -rf /data/web_static/current")
+        run("rm -rf /data/web_static/current")
 
-        run("sudo mkdir /data/web_static/current/")
+        run("mkdir /data/web_static/current/")
 
-        run(f"sudo ln -sfn {release_dir}{archive}/* /data/web_static/current")
+        run(f"ln -sf {release_dir}{archive}/* /data/web_static/current")
 
         print("New version deployed!")
         return True
