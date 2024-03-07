@@ -50,7 +50,8 @@ function do_deploy"""
 
         run("mkdir /data/web_static/current/")
 
-        run(f"ln -sf {release_dir}{archive}/ /data/web_static/current/")
+        run(f"ln -sfn {release_dir}{archive}/* /data/web_static/current")
+
         print("New version deployed!")
         return True
     except Exception:
