@@ -5,6 +5,5 @@ test_params_create
 file
 *.pyc
 *.txt
-*.sh
 main_place_amenities.py
 main_delete.py
