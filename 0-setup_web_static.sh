@@ -13,7 +13,7 @@ sudo mkdir -p "/data/web_static/releases/test/"
 sudo mkdir -p "/data/web_static/shared/"
 
 # create index.html
-sudo cat "
+sudo echo "
 <!doctype html>
 
 <html lang='en'>
