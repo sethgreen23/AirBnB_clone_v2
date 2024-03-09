@@ -29,7 +29,7 @@ sudo cat "
   </body>
 
 </html>
-" sudo tee "/data/web_static/releases/test/index.html" > /dev/null
+" sudo tee "/data/web_static/releases/test/index.html"
 
 # create symblic link to directory
 symbolic_link="/data/web_static/current"
