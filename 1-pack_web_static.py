@@ -8,13 +8,15 @@ import os
 def do_pack():
     """ pack the folders """
     d = datetime.strftime(datetime.now(), '%Y%m%d%H%M%S')
-    local("mkdir -p versions")
+    print("Packing web_static to versions/web_static_{}.tgz".format(d))
+    if not os.path.exists("versions"):
+        os.makedirs("versions")
     result = local("tar -cvzf versions/web_static_{}.tgz web_static".format(d),
                    capture=False)
     if not result.failed:
-        for _, _, files in os.walk("versions"):
-            for file_name in files:
-                rel_file = os.path.join("versions", file_name)
-                return rel_file
+        size = os.path.getsize("versions/web_static_{}.tgz".format(d))
+        form = "web_static packed: versions/web_static_{}.tgz -> {}Bytes"
+        print(form.format(d, size))
+        return "versions/web_static_{}.tgz".format(d)
     else:
         return None
