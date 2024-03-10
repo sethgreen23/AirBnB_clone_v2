@@ -43,6 +43,7 @@ sudo ln -s  "$source_link" "$symbolic_link"
 sudo chown -R ubuntu:ubuntu /data/
 
 # update nginx configuration to server content
-sudo sed -i '55i\		location /hbnb_static { 			alias /data/web_static/current/; }' /etc/nginx/sites-available/default
 
+sudo sed -i '55i\	location /hbnb_static { 		alias /data/web_static/current/; }' /etc/nginx/sites-available/default
+sudo sed -i '56i\	location /hbnb_static { 		alias /data/web_static/current/; }' /etc/nginx/sites-enabled/default
 sudo service nginx restart
