@@ -33,7 +33,7 @@ def do_pack():
 @task
 def do_deploy(archive_path):
     """ deploy of static files on servers """
-    if not os.path.isfile(archive_path):
+    if not os.path.exists(archive_path):
         return False
     try:
         f = archive_path.split("/")[-1]
