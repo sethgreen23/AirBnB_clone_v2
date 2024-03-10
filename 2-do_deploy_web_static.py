@@ -6,8 +6,8 @@ from fabric.context_managers import env
 import os
 
 
-
 env.hosts = ['35.175.65.143', '54.146.90.232']
+
 
 @task
 def do_pack():
@@ -26,6 +26,7 @@ def do_pack():
     else:
         return None
 
+
 @task
 def do_deploy(archive_path):
     """ deploy files """
@@ -36,7 +37,7 @@ def do_deploy(archive_path):
     dest_path = "/tmp/{}".format(f)
     put(archive_path, dest_path)
     run("mkdir -p /data/web_static/releases/{}/".format(file_n))
-    run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(f,file_n))
+    run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(f, file_n))
     run("rm /tmp/{}".format(f))
     source = "/data/web_static/releases/{}/web_static/*".format(file_n)
     dest = "/data/web_static/releases/{}/".format(file_n)
@@ -48,8 +49,3 @@ def do_deploy(archive_path):
     run("ln -s {} {}".format(s_alias, alias))
     print("New version deployed!")
     return True
-
-    
-
-
-
