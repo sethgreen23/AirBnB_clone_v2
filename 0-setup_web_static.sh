@@ -46,4 +46,5 @@ sudo chown -hR ubuntu:ubuntu /data/
 
 sudo sed -i '55i\       location /hbnb_static { alias /data/web_static/current/; }' /etc/nginx/sites-available/default
 #sudo sed -i '55i\      location /hbnb_static {                 alias /data/web_static/current/; }' /etc/nginx/sites-enabled/default
-sudo service nginx start
+#sudo service nginx start
+sudo systemctl restart nginx
