@@ -44,6 +44,6 @@ sudo chown -hR ubuntu:ubuntu /data/
 
 # update nginx configuration to server content
 
-sudo sed -i '55i\       location /hbnb_static { alias /data/web_static/current/; }' /etc/nginx/sites-available/default
+sudo sed -i '47i\       location /hbnb_static { alias /data/web_static/current/; }' /etc/nginx/sites-enabled/default
 #sudo sed -i '55i\      location /hbnb_static {                 alias /data/web_static/current/; }' /etc/nginx/sites-enabled/default
 sudo service nginx restart
