@@ -6,7 +6,7 @@ from fabric.context_managers import env
 import os
 
 
-env.hosts = ['35.175.65.143', '54.146.90.232']
+env.hosts = ['34.229.161.215', '54.146.90.232']
 
 
 @task
