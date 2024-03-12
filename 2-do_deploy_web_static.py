@@ -38,20 +38,20 @@ def do_deploy(archive_path):
     try:
         f = archive_path.split("/")[-1]
         file_n = f.split(".")[0]
-        dest_path = "/tmp"
+        dest_path = "/tmp/"
         put(archive_path, dest_path)
-        run("mkdir -p /data/web_static/releases/{}/".format(file_n))
-        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(f,
+        run("sudo mkdir -p /data/web_static/releases/{}/".format(file_n))
+        run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(f,
                                                                        file_n))
-        run("rm /tmp/{}".format(f))
+        run("sudo rm /tmp/{}".format(f))
         source = "/data/web_static/releases/{}/web_static/*".format(file_n)
         dest = "/data/web_static/releases/{}/".format(file_n)
-        run("mv {} {}".format(source, dest))
-        run("rm -rf /data/web_static/releases/{}/web_static".format(file_n))
-        run("rm -rf /data/web_static/current")
+        run("sudo mv {} {}".format(source, dest))
+        run("sudo rm -rf /data/web_static/releases/{}/web_static".format(file_n))
+        run("sudo rm -rf /data/web_static/current")
         alias = "/data/web_static/current"
         s_alias = "/data/web_static/releases/{}/".format(file_n)
-        run("ln -s {} {}".format(s_alias, alias))
+        run("sudo ln -s {} {}".format(s_alias, alias))
         print("New version deployed!")
         return True
     except Exception as e:
