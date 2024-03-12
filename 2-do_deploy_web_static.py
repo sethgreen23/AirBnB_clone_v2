@@ -54,7 +54,7 @@ def do_deploy(archive_path):
         run(f"tar -xzf /tmp/{raw_name}.tgz -C {releases_path}/{raw_name}/")
 
         # Remove archive file
-        run(f"rm /tmp/{raw_name}.tgz")
+        run(f"sudo rm /tmp/{raw_name}.tgz")
 
         # Move contents to appropriate location
         run("mv {}/{}/web_static/* {}/{}/".format(releases_path, raw_name,
