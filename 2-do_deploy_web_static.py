@@ -6,7 +6,7 @@ from fabric.context_managers import env
 import os
 
 
-env.hosts = ['35.175.65.143', '54.146.90.232']
+env.hosts = ['34.229.161.215', '54.146.90.232']
 
 
 @task
@@ -38,7 +38,7 @@ def do_deploy(archive_path):
     try:
         f = archive_path.split("/")[-1]
         file_n = f.split(".")[0]
-        dest_path = "/tmp/{}".format(f)
+        dest_path = "/tmp".format(f)
         put(archive_path, dest_path)
         run("mkdir -p /data/web_static/releases/{}/".format(file_n))
         run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(f,
