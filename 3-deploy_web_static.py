@@ -6,9 +6,10 @@ from fabric.context_managers import env
 import os
 
 
-env.hosts = ['35.175.65.143', '54.146.90.232']
+env.hosts = ['34.229.161.215', '54.146.90.232']
 
 
+@task
 def do_pack():
     """ pack the folders inside an archive"""
     try:
@@ -29,9 +30,10 @@ def do_pack():
         return None
 
 
+@task
 def do_deploy(archive_path):
     """ deploy of static files on servers """
-    if not os.path.isfile(archive_path):
+    if not os.path.exists(archive_path):
         return False
     try:
         f = archive_path.split("/")[-1]
@@ -55,7 +57,7 @@ def do_deploy(archive_path):
     except Exception as e:
         return False
 
-
+@task
 def deploy():
     """ full deploy of the static files """
     archive_path = do_pack()
