@@ -58,23 +58,25 @@ def do_deploy(archive_path):
     except Exception as e:
         return False
 
+
 @task
 def deploy():
     """ full deploy of the static files """
-    l = None
+    list_name = None
     try:
-        l = find_files("versions", "web_static_*.tgz")
+        list_name = find_files("versions", "web_static_*.tgz")
     except Exception as e:
         pass
-    if l is None:
+    if list_name is None:
         archive_path = do_pack()
     else:
-        archive_path = os.path.join("versions", l[0])
+        archive_path = os.path.join("versions", list_name[0])
     if archive_path is None:
         return False
     return do_deploy(archive_path)
 
+
 def find_files(base, pattern):
     '''Return list of files matching pattern in base folder.'''
-    return [n for n in fnmatch.filter(os.listdir(base), pattern) if
-        os.path.isfile(os.path.join(base, n))]
+    return [n for n in fnmatch.filter(os.listdir(base), pattern)
+            if os.path.isfile(os.path.join(base, n))]
