@@ -5,6 +5,8 @@ from datetime import datetime
 from fabric.context_managers import env
 import os
 import fnmatch
+import glob
+import time
 
 
 env.hosts = ['34.229.161.215', '54.146.90.232']
@@ -58,19 +60,25 @@ def do_deploy(archive_path):
     except Exception as e:
         return False
 
+list_of_files = glob.glob('versions/web_static_*.tgz')
+latest_file = max(list_of_files, key=os.path.getctime)
+print((time.time() - os.path.getctime(latest_file))/60)
 
 @task
 def deploy():
     """ full deploy of the static files """
-    list_name = None
+    list_names = None
     try:
-        list_name = find_files("versions", "web_static_*.tgz")
+        list_names = glob.glob('versions/web_static_*.tgz')
     except Exception as e:
         pass
-    if list_name is None:
+    if list_names is None:
         archive_path = do_pack()
     else:
-        archive_path = os.path.join("versions", list_name[0])
+        archive_path = max(list_names, key=os.path.getctime)
+        time_elapsed = (time.time() - os.path.getctime(archive_path))/60
+        if time_elapsed > 1:
+            archive_path = do_pack()
     if archive_path is None:
         return False
     return do_deploy(archive_path)
