@@ -32,43 +32,27 @@ def do_pack():
 
 @task
 def do_deploy(archive_path):
-    """ distributes the archive to the server """
+    """ deploy of static files on servers """
     if not os.path.exists(archive_path):
         return False
-
     try:
-        # Put the archive on the server
-        put(archive_path, '/tmp')
-
-        # Extract archive filename without extension
-        raw_name = os.path.basename(archive_path)[:-4]
-
-        # Define remote paths
-        releases_path = '/data/web_static/releases'
-        current_path = '/data/web_static/current'
-
-        # Create directory structure
-        run(f"mkdir -p {releases_path}/{raw_name}/")
-
-        # Extract archive contents
-        run(f"tar -xzf /tmp/{raw_name}.tgz -C {releases_path}/{raw_name}/")
-
-        # Remove archive file
-        run(f"sudo rm /tmp/{raw_name}.tgz")
-
-        # Move contents to appropriate location
-        run("mv {}/{}/web_static/* {}/{}/".format(releases_path, raw_name,
-                                                  releases_path, raw_name))
-
-        # Remove empty web_static directory
-        run(f"rm -rf {releases_path}/{raw_name}/web_static")
-
-        # Update symbolic link
-        run(f"rm -rf {current_path}")
-        run(f"ln -s {releases_path}/{raw_name}/ {current_path}")
-
+        f = archive_path.split("/")[-1]
+        file_n = f.split(".")[0]
+        dest_path = "/tmp"
+        put(archive_path, dest_path)
+        run("mkdir -p /data/web_static/releases/{}/".format(file_n))
+        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(f,
+                                                                       file_n))
+        run("rm /tmp/{}".format(f))
+        source = "/data/web_static/releases/{}/web_static/*".format(file_n)
+        dest = "/data/web_static/releases/{}/".format(file_n)
+        run("mv {} {}".format(source, dest))
+        run("rm -rf /data/web_static/releases/{}/web_static".format(file_n))
+        run("rm -rf /data/web_static/current")
+        alias = "/data/web_static/current"
+        s_alias = "/data/web_static/releases/{}/".format(file_n)
+        run("ln -s {} {}".format(s_alias, alias))
         print("New version deployed!")
         return True
-
     except Exception as e:
         return False
