@@ -60,9 +60,6 @@ def do_deploy(archive_path):
     except Exception as e:
         return False
 
-list_of_files = glob.glob('versions/web_static_*.tgz')
-latest_file = max(list_of_files, key=os.path.getctime)
-print((time.time() - os.path.getctime(latest_file))/60)
 
 @task
 def deploy():
