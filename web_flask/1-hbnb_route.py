@@ -11,9 +11,15 @@ app = Flask(__name__)
 
 
 @app.route("/", strict_slashes=False)
-def hello_world():
+def hello_hbnb():
     """ Print Hello HBNB! on the browser """
     return "Hello HBNB!"
+
+
+@app.route("/hbnb", strict_slashes=False)
+def hbnb():
+    """ Print HBNB in the browser """
+    return "HBNB"
 
 
 if __name__ == "__main__":
