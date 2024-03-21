@@ -30,5 +30,13 @@ def c_description(text):
     return f'C {escape(n_text)}'
 
 
+@app.route("/python", defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python_description(text):
+    """Describe Python language"""
+    n_text = text.replace('_', ' ')
+    return f'Python {escape(n_text)}'
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
