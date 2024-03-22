@@ -16,15 +16,16 @@ class State(BaseModel, Base):
             'City', cascade='all, delete-orphan', backref='state')
     else:
         @property
-        def cities(self, state_id):
+        def cities(self):
             """
             Getter attribute that returns a list of City instances
             with state_id equals to the provided state_id.
             """
             from models import storage
+            from models.city import City
 
             cities_list = []
-            for city_instance in storage.all():
+            for city_instance in storage.all(City).values():
                 if city_instance.state_id == self.id:
                     cities_list.append(city_instance)
             return cities_list

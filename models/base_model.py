@@ -50,27 +50,29 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        try:
-            if os.getenv('HBNB_TYPE_STORAGE') != 'db':
-                del self.__dict__['_sa_instance_state']
-        except Exception:
-            pass
+        # try:
+        #     if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+        #         del self.__dict__['_sa_instance_state']
+        # except Exception:
+            # pass
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
     def __repr__(self):
         """Returns string representation when str() is used"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        try:
-            if os.getenv('HBNB_TYPE_STORAGE') != 'db':
-                del self.__dict__['_sa_instance_state']
-        except Exception:
-            pass
+        # try:
+        #     if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+        #         del self.__dict__['_sa_instance_state']
+        # except Exception:
+        #     pass
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
+        # print("before update_ta")
         self.updated_at = datetime.now()
+        # print("after update_ta")
         storage.new(self)  # moved from def __init__
         storage.save()
 
