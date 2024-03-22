@@ -22,7 +22,7 @@ def teardown_db(exception=None):
 @app.route("/states_list", strict_slashes=False)
 def get_states_route():
     """ get the states list """
-    return render_template('7-states_list.html', states=storage.all(State))
+    return render_template("7-states_list.html", states=storage.all(State))
 
 
 if __name__ == "__main__":
