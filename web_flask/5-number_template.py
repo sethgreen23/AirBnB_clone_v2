@@ -47,7 +47,7 @@ def print_number(n):
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def print_number_template(n):
     """ Print the number throw HTML file """
-    return render_template("5-number.html", n=n)
+    return render_template("5-number.html", n=escape(n))
 
 
 if __name__ == "__main__":
